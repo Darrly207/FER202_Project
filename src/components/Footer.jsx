@@ -7,7 +7,7 @@ const Footer = () => {
         {/* Logo and Description */}
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-indigo-600 rounded-full"></div>
+            <div className="w-8 h-8 bg-green-600 rounded-full"></div>
             <span className="text-white text-xl font-semibold">Job Finder</span>
           </div>
           <p className="text-sm">
@@ -87,7 +87,7 @@ const Footer = () => {
               placeholder="Email Address"
               className="flex-1 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-indigo-500"
             />
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+            <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
               Subscribe
             </button>
           </div>

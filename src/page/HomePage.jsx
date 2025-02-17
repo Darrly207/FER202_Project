@@ -79,7 +79,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className=" bg-[#0F0F1A] text-white p-6 w-screen">
+    <div className=" bg-white text-slate-900 p-6 w-screen">
       {/* Header */}
 
       {/* Hero Section */}
@@ -89,7 +89,7 @@ export default function HomePage() {
           <br />
           more than
           <br />
-          <span className="text-blue-500 border-b-2 border-blue-500 height-full">
+          <span className="text-yellow-400 border-b-2 border-yellow-500 height-full">
             5000+ Jobs
           </span>
         </h1>
@@ -104,14 +104,14 @@ export default function HomePage() {
           <input
             type="text"
             placeholder="Job title or keyword"
-            className="flex-1 bg-[#1C1C27] p-4 rounded-lg"
+            className="flex-1 bg-white text-slate-900 p-4 rounded-lg"
           />
           <input
             type="text"
             placeholder="Location"
-            className="flex-1 bg-[#1C1C27] p-4 rounded-lg"
+            className="flex-1 bg-white text-slate-900 p-4 rounded-lg"
           />
-          <button className="bg-blue-600 px-8 rounded-lg cursor-pointer">
+          <button className="bg-green-700 px-8 rounded-lg cursor-pointer text-white hover:bg-green-900">
             Search for jobs
           </button>
         </div>
@@ -142,7 +142,7 @@ export default function HomePage() {
           {categories.map((category) => (
             <div
               key={category.name}
-              className="bg-[#1C1C27] p-6 rounded-xl hover:bg-blue-600 hover:text-white transition-colors cursor-pointer bg-white"
+              className="bg-[#1C1C27] p-6 rounded-xl hover:bg-green-600 hover:text-white transition-colors cursor-pointer bg-white"
             >
               <h3 className="font-semibold mb-2 text-black">{category.name}</h3>
               <p className="text-sm text-gray-400">{category.count}</p>
@@ -161,7 +161,7 @@ export default function HomePage() {
           {featuredJobs.map((job, index) => (
             <div
               key={index}
-              className="hover:bg-blue-600 bg-white p-6 rounded-xl cursor-pointer"
+              className="hover:bg-green-600 bg-white p-6 rounded-xl cursor-pointer"
             >
               <div className="w-12 h-12 bg-gray-700 rounded-lg mb-4"></div>
               <h3 className="font-semibold mb-2">{job.title}</h3>

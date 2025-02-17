@@ -14,17 +14,17 @@ function Navbar() {
               Job Finder
             </span>
           </Link>
-          <div className="flex gap-4 ml-8 h-10 text-lg mt-2">
+          <Link to="JobFind" className="flex gap-4 ml-8 h-10 text-lg mt-2">
             <div className="text-green-600 h-full border-b-2 border-green-600">
               Find Jobs
             </div>
             <a href="/" className="text-gray-700">
               Browse Companies
             </a>
-          </div>
+          </Link>
         </div>
         <div className="flex gap-4 mr-12 h-full">
-          <Button className="bg-slate-900 hover:bg-gray-200 border-r-2 border-green-600 h-full text-green-600 font-bold p-3 pr-11 flex flex-center">
+          <Button className="bg-white-900 hover:bg-gray-200 border-r-2 border-green-600 h-full text-green-600 font-bold p-3 pr-11 flex flex-center">
             Login
           </Button>
           <Button className="bg-green-600 hover:bg-green-700 h-full font-bold text-white p-3 pl-4 pr-4 flex justify-center items-center mr-12 ">
