@@ -1,7 +1,8 @@
 import Navbar from "./components/Navbar";
+
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 ml-20 mt-7">
+    <div className="pt-7 bg-slate-900 overflow-x-hidden">
       <Navbar />
     </div>
   );
