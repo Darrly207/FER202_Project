@@ -1,41 +1,97 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import JobFinderPage from "../page/SearchPage";
-import { Button } from "@/components/ui/button";
 import JobDashboard from "../page/Dashboard";
 import HomePage from "../page/HomePage";
+import JobFinderLogin from "../components/Login";
+import JobFinderRegister from "../components/Register";
+import { useState } from "react";
+import { Menu, X } from "lucide-react"; // Import icons
+
 function Navbar() {
+  const [isOpen, setIsOpen] = useState(false); // State để toggle menu trên mobile
+
   return (
-    <Router className="w-screen mx-auto p-6 ml-12">
-      <nav className="flex justify-between items-center mb-8 ml-12">
-        <div className="flex items-center gap-4 ml-12">
-          <Link to="/UserDashboard" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-purple-600 rounded-full"></div>
-            <span className="font-semibold text-3xl text-green-500">
-              Job Finder
-            </span>
-          </Link>
-          <Link to="JobFind" className="flex gap-4 ml-8 h-10 text-lg mt-2">
-            <div className="text-green-600 h-full border-b-2 border-green-600">
+    <Router>
+      <nav className="w-full px-4 sm:px-12 py-4 flex justify-between items-center bg-white shadow-md">
+        {/* Logo */}
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link to="/UserDashboard" className="flex items-center">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-purple-600 rounded-full"></div>
+              <span className="font-semibold text-lg sm:text-3xl text-green-500 ml-2">
+                Job Finder
+              </span>
+            </Link>
+          </div>
+
+          {/* Menu trên Desktop */}
+          <div className="hidden sm:flex gap-6 xxl:flex-start">
+            <Link
+              to="/JobFind"
+              className="text-green-600 border-b-2 border-green-600"
+            >
               Find Jobs
-            </div>
-            <a href="/" className="text-gray-700">
+            </Link>
+            <Link to="/" className="text-gray-700">
               Browse Companies
-            </a>
+            </Link>
+          </div>
+        </div>
+        {/* Login + Signup trên Desktop */}
+        <div className="hidden sm:flex gap-4">
+          <Link
+            to="/login"
+            className="bg-gray-100 hover:bg-gray-200 border border-green-600 text-green-600 font-bold px-4 py-2 rounded"
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded"
+          >
+            Sign Up
           </Link>
         </div>
-        <div className="flex gap-4 mr-12 h-full">
-          <Button className="bg-white-900 hover:bg-gray-200 border-r-2 border-green-600 h-full text-green-600 font-bold p-3 pr-11 flex flex-center">
-            Login
-          </Button>
-          <Button className="bg-green-600 hover:bg-green-700 h-full font-bold text-white p-3 pl-4 pr-4 flex justify-center items-center mr-12 ">
-            Sign Up
-          </Button>
-        </div>
+
+        {/* Icon mở Menu trên Mobile */}
+        <button
+          className="sm:hidden text-gray-700"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </nav>
+
+      {/* Menu Mobile */}
+      {isOpen && (
+        <div className="sm:hidden bg-white shadow-md absolute top-16 left-0 w-full flex flex-col items-center p-4 space-y-4">
+          <Link to="/JobFind" className="text-green-600">
+            Find Jobs
+          </Link>
+          <Link to="/" className="text-gray-700">
+            Browse Companies
+          </Link>
+          <Link
+            to="/login"
+            className="bg-gray-100 hover:bg-gray-200 border border-green-600 text-green-600 font-bold px-4 py-2 rounded w-full text-center"
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded w-full text-center"
+          >
+            Sign Up
+          </Link>
+        </div>
+      )}
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/UserDashboard" element={<JobDashboard />} />
         <Route path="/JobFind" element={<JobFinderPage />} />
+        <Route path="/login" element={<JobFinderLogin />} />
+        <Route path="/register" element={<JobFinderRegister />} />
       </Routes>
     </Router>
   );

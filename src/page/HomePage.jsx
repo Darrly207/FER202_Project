@@ -93,11 +93,6 @@ export default function HomePage() {
             5000+ Jobs
           </span>
         </h1>
-        <p className="text-gray-400 mb-8 text-xl">
-          Great platform for the job seeker that searching for
-          <br />
-          new career heights and passionate about startups.
-        </p>
 
         {/* Search Bar */}
         <div className="flex gap-4 mb-8">
@@ -111,7 +106,7 @@ export default function HomePage() {
             placeholder="Location"
             className="flex-1 bg-white text-slate-900 p-4 rounded-lg"
           />
-          <button className="bg-green-700 px-8 rounded-lg cursor-pointer text-white hover:bg-green-900">
+          <button className="bg-blue-700 px-8 rounded-lg cursor-pointer text-white hover:bg-green-900">
             Search for jobs
           </button>
         </div>
@@ -142,7 +137,7 @@ export default function HomePage() {
           {categories.map((category) => (
             <div
               key={category.name}
-              className="bg-[#1C1C27] p-6 rounded-xl hover:bg-green-600 hover:text-white transition-colors cursor-pointer bg-white"
+              className="bg-[#1C1C27] p-6 rounded-xl hover:bg-blue-700 hover:text-white transition-colors cursor-pointer bg-white"
             >
               <h3 className="font-semibold mb-2 text-black">{category.name}</h3>
               <p className="text-sm text-gray-400">{category.count}</p>
@@ -161,7 +156,7 @@ export default function HomePage() {
           {featuredJobs.map((job, index) => (
             <div
               key={index}
-              className="hover:bg-green-600 bg-white p-6 rounded-xl cursor-pointer"
+              className="hover:bg-blue-700 bg-white p-6 rounded-xl cursor-pointer"
             >
               <div className="w-12 h-12 bg-gray-700 rounded-lg mb-4"></div>
               <h3 className="font-semibold mb-2">{job.title}</h3>
