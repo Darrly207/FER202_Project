@@ -2,10 +2,10 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import JobFinderPage from "../page/SearchPage";
 import JobDashboard from "../page/Dashboard";
 import HomePage from "../page/HomePage";
-import JobFinderLogin from "../components/Login";
-import JobFinderRegister from "../components/Register";
+
 import { useState } from "react";
 import { Menu, X } from "lucide-react"; // Import icons
+import LoginSignUp from "../page/LoginSignUp";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false); // State để toggle menu trên mobile
@@ -40,13 +40,13 @@ function Navbar() {
         {/* Login + Signup trên Desktop */}
         <div className="hidden sm:flex gap-4">
           <Link
-            to="/login"
+            to="/LoginForm"
             className="bg-gray-100 hover:bg-gray-200 border border-green-600 text-green-600 font-bold px-4 py-2 rounded"
           >
             Login
           </Link>
           <Link
-            to="/register"
+            to="/SignupForm"
             className="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded"
           >
             Sign Up
@@ -72,13 +72,13 @@ function Navbar() {
             Browse Companies
           </Link>
           <Link
-            to="/login"
+            to="/LoginForm"
             className="bg-gray-100 hover:bg-gray-200 border border-green-600 text-green-600 font-bold px-4 py-2 rounded w-full text-center"
           >
             Login
           </Link>
           <Link
-            to="/register"
+            to="/SignupForm"
             className="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded w-full text-center"
           >
             Sign Up
@@ -90,8 +90,8 @@ function Navbar() {
         <Route path="/" element={<HomePage />} />
         <Route path="/UserDashboard" element={<JobDashboard />} />
         <Route path="/JobFind" element={<JobFinderPage />} />
-        <Route path="/login" element={<JobFinderLogin />} />
-        <Route path="/register" element={<JobFinderRegister />} />
+        <Route path="/LoginForm" element={<LoginSignUp />} />
+        <Route path="/SignupForm" element={<LoginSignUp />} />
       </Routes>
     </Router>
   );

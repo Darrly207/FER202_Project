@@ -16,58 +16,47 @@ const JobDashboard = () => {
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
       <div className="w-64 bg-white border-r">
-        <div className="p-4 border-b">
-          <div className="flex items-center">
-            <div className="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center">
-              <span className="text-white font-bold">J</span>
-            </div>
-            <span className="ml-2 text-xl font-semibold text-green-500">
-              Job Finder
-            </span>
-          </div>
-        </div>
-
         <div className="p-4">
           <div className="space-y-2">
-            <div className="flex items-center p-2 bg-blue-50 text-blue-600 rounded">
+            <div className="flex items-center p-2 bg-blue-50 text-blue-600 rounded cursor-pointer">
               <LayoutDashboard size={20} />
               <span className="ml-3">Dashboard</span>
             </div>
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded">
+            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
               <MessageSquare size={20} />
               <span className="ml-3">Messages</span>
               <span className="ml-auto bg-green-500 text-white text-xs px-2 py-1 rounded-full">
                 1
               </span>
             </div>
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded">
+            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
               <Building2 size={20} />
               <span className="ml-3">Company Profile</span>
             </div>
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded">
+            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
               <Users size={20} />
               <span className="ml-3">All Applicants</span>
             </div>
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded">
+            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
               <Briefcase size={20} />
               <span className="ml-3">Job Listing</span>
             </div>
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded">
+            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
               <CalendarDays size={20} />
               <span className="ml-3">My Schedule</span>
             </div>
           </div>
 
           <div className="mt-8">
-            <div className="text-xs font-semibold text-gray-400 mb-4">
+            <div className="text-xs font-semibold text-gray-400 mb-4 ">
               SETTINGS
             </div>
             <div className="space-y-2">
-              <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded">
+              <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
                 <Settings size={20} />
                 <span className="ml-3">Settings</span>
               </div>
-              <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded">
+              <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
                 <HelpCircle size={20} />
                 <span className="ml-3">Help Center</span>
               </div>
