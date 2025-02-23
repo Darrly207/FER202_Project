@@ -82,6 +82,7 @@ const JobFinderLogin = () => {
             <Input
               type="email"
               placeholder="Enter email address"
+              value={email}
               className="w-full px-4 py-2 border rounded-lg"
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -95,6 +96,7 @@ const JobFinderLogin = () => {
               type="password"
               placeholder="Enter password"
               className="w-full px-4 py-2 border rounded-lg"
+              value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
