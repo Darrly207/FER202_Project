@@ -22,7 +22,7 @@ const JobFinderLogin = () => {
 
   const register = (e) => {
     e.preventDefault();
-    if (email === "tester123@gmail.com" && password === "1234") {
+    if (email === "tester1@gmail.com" && password === "1234") {
       Swal.fire({
         icon: "success",
         text: `Login Successfully`,
