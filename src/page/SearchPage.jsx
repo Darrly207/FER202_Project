@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 // import { Checkbox } from "@/components/ui/checkbox";
 import img1 from "../assets/image.png";
 import { Search, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 const JobFinderPage = () => {
   return (
     <div className="max-w-6xl mx-auto p-6 ml-22 mt-11 mb-11">
@@ -257,7 +258,10 @@ const JobFinderPage = () => {
               },
             ].map((job, index) => (
               <Card key={index} className="gap-1">
-                <div className="flex justify-between items-start border-2 border-gray-200 p-4">
+                <Link
+                  to="/JobDetail"
+                  className="flex justify-between items-start border-2 border-gray-200 p-4"
+                >
                   <div className="flex gap-4">
                     <div className="w-18 h-18 bg-gray-100 rounded-lg">
                       <img
@@ -308,7 +312,7 @@ const JobFinderPage = () => {
                       <span> of 10 capacity</span>
                     </p>
                   </div>
-                </div>
+                </Link>
               </Card>
             ))}
           </div>

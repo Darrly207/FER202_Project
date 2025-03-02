@@ -6,6 +6,7 @@ import HomePage from "../page/HomePage";
 import { useState } from "react";
 import { Menu, X } from "lucide-react"; // Import icons
 import LoginSignUp from "../page/LoginSignUp";
+import JobDetail from "../page/JobDetail";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false); // State để toggle menu trên mobile
@@ -92,6 +93,7 @@ function Navbar() {
         <Route path="/JobFind" element={<JobFinderPage />} />
         <Route path="/LoginForm" element={<LoginSignUp />} />
         <Route path="/SignupForm" element={<LoginSignUp />} />
+        <Route path="/JobDetail" element={<JobDetail />} />
       </Routes>
     </Router>
   );

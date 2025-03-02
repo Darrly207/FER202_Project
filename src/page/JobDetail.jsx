@@ -1,16 +1,10 @@
 // import Navbar from "./components/Navbar";
 
-const App = () => {
+const JobDetail = () => {
   return (
     <div className="flex min-h-screen bg-gray-100 font-sans">
       {/* Sidebar */}
-      <div className="w-1/4 bg-white p-6">
-        <div className="flex items-center mb-8">
-          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-            JF
-          </div>
-          <span className="ml-3 text-xl font-semibold">Job Finder</span>
-        </div>
+      <div className="w-1/4 bg-white p-8 flex flex-col">
         <nav className="mb-8">
           <ul>
             <li className="mb-4">
@@ -44,36 +38,6 @@ const App = () => {
               <a className="flex items-center text-gray-700" href="#">
                 <i className="fas fa-building mr-3"></i>
                 Browse Companies
-              </a>
-            </li>
-            <li className="mb-4">
-              <a className="flex items-center text-gray-700" href="#">
-                Link
-              </a>
-            </li>
-            <li className="mb-4">
-              <a className="flex items-center text-gray-700" href="#">
-                Link
-              </a>
-            </li>
-            <li className="mb-4">
-              <a className="flex items-center text-gray-700" href="#">
-                Link
-              </a>
-            </li>
-            <li className="mb-4">
-              <a className="flex items-center text-gray-700" href="#">
-                Link
-              </a>
-            </li>
-            <li className="mb-4">
-              <a className="flex items-center text-gray-700" href="#">
-                Link
-              </a>
-            </li>
-            <li className="mb-4">
-              <a className="flex items-center text-gray-700" href="#">
-                Link
               </a>
             </li>
           </ul>
@@ -255,4 +219,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default JobDetail;
