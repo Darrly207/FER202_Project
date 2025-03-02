@@ -1,10 +1,13 @@
 import Navbar from "./components/Navbar";
+import AuthProvider from "./context/AuthContext";
 
 function App() {
   return (
-    <div className="pt-7 overflow-x-hidden">
-      <Navbar />
-    </div>
+    <AuthProvider>
+      <div className="pt-7 overflow-x-hidden">
+        <Navbar />
+      </div>
+    </AuthProvider>
   );
 }
 
