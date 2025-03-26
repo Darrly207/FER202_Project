@@ -158,7 +158,7 @@ function Navbar() {
             <>
               <div className="flex items-center justify-center gap-2 w-full bg-gray-100 p-4 rounded">
                 <User2Icon size={20} className="text-green-600" />
-                <span className="font-medium">{user.data.fullName}</span>
+                <span className="font-medium">{user.fullName}</span>
               </div>
               <Link
                 to="/UserDashboard"
