@@ -2,7 +2,7 @@ import Navbar from "./components/Navbar";
 import ApplicantProvider from "./context/ApplicantContext";
 import AuthProvider from "./context/AuthContext";
 import CompanyProvider from "./context/CompanyContext";
-import JobProvider from "./context/jobContext";
+import JobProvider from "./context/JobContext";
 
 function App() {
   return (
