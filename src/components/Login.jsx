@@ -39,7 +39,7 @@ const JobFinderLogin = () => {
 
     const loginSuccess = await login(username, password);
     if (loginSuccess) {
-      navigate("/UserDashboard");
+      navigate("/");
     }
   };
 

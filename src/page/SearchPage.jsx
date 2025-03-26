@@ -265,7 +265,7 @@ const JobFinderPage = () => {
                   <div className="flex gap-4">
                     <div className="w-18 h-18 bg-gray-100 rounded-lg">
                       <img
-                        src={job.img}
+                        src={img1}
                         alt={job.title}
                         className="w-full h-full object-cover rounded-lg"
                       />

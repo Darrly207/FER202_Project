@@ -1,21 +1,30 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  NavLink,
+} from "react-router-dom";
 import JobFinderPage from "../page/SearchPage";
-import JobDashboard from "../page/Dashboard";
 import HomePage from "../page/HomePage";
-
 import { useContext, useState } from "react";
 import { Menu, X, User2Icon, LogOut } from "lucide-react";
 import LoginSignUp from "../page/LoginSignUp";
 import JobDetail from "../page/JobDetail";
 import { AuthContext } from "../context/AuthContext";
-
+import TodosSettingsUI from "../page/company/companySetting";
+import CompanyProfile from "../page/company/CompanyProfile";
+import SeekerProfile from "../page/user/SeekerProfile";
+import UserDashboard from "../page/user/DashBoardUser";
+import CompanyDashboard from "../page/company/Dashboard";
+import JobTurnityClone from "../page/BrowserCompany";
 function Navbar() {
   const authContext = useContext(AuthContext);
   const { user, logout } = authContext;
-
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  console.log(storedUser);
   const [isOpen, setIsOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-
   const handleLogout = () => {
     if (logout) {
       logout();
@@ -29,7 +38,7 @@ function Navbar() {
         {/* Logo */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 sm:gap-4">
-            <Link to="/UserDashboard" className="flex items-center">
+            <Link to="/" className="flex items-center">
               <div className="w-6 h-6 sm:w-8 sm:h-8 bg-purple-600 rounded-full"></div>
               <span className="font-semibold text-lg sm:text-3xl text-green-500 ml-2">
                 Job Finder
@@ -39,28 +48,53 @@ function Navbar() {
 
           {/* Menu trên Desktop */}
           <div className="hidden sm:flex gap-6 xxl:flex-start">
-            <Link
+            <NavLink
               to="/JobFind"
-              className="text-green-600 border-b-2 border-green-600"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-green-600 border-b-2 border-green-600 font-semibold"
+                  : "text-gray-700 hover:text-green-600 transition-colors"
+              }
             >
               Find Jobs
-            </Link>
-            <Link to="/" className="text-gray-700">
+            </NavLink>
+            <NavLink
+              to="/JobTurnityClone"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-green-600 border-b-2 border-green-600 font-semibold"
+                  : "text-gray-700 hover:text-green-600 transition-colors"
+              }
+            >
               Browse Companies
-            </Link>
+            </NavLink>
+            <NavLink
+              to="/UserDashboard"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-green-600 border-b-2 border-green-600 font-semibold"
+                  : "text-gray-700 hover:text-green-600 transition-colors"
+              }
+            >
+              {user
+                ? user.role === "company"
+                  ? "Company Dashboard"
+                  : "User Dashboard"
+                : ""}
+            </NavLink>
           </div>
         </div>
 
         {/* User profile hoặc Login/Signup buttons trên Desktop */}
         <div className="hidden sm:flex gap-4 items-center">
-          {user ? (
+          {storedUser ? (
             <div className="relative">
               <div
                 className="flex items-center gap-2 cursor-pointer bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded"
                 onClick={() => setShowUserMenu(!showUserMenu)}
               >
                 <User2Icon size={20} className="text-green-600" />
-                <span className="font-medium">{user.fullName}</span>
+                <span className="font-medium">{storedUser.fullName}</span>
               </div>
 
               {/* User dropdown menu */}
@@ -120,7 +154,7 @@ function Navbar() {
           </Link>
 
           {/* User profile hoặc Login/Signup buttons trên Mobile */}
-          {user ? (
+          {storedUser ? (
             <>
               <div className="flex items-center justify-center gap-2 w-full bg-gray-100 p-4 rounded">
                 <User2Icon size={20} className="text-green-600" />
@@ -161,11 +195,16 @@ function Navbar() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/UserDashboard" element={<JobDashboard />} />
+        <Route path="/CompanyDashboard" element={<CompanyDashboard />} />
         <Route path="/JobFind" element={<JobFinderPage />} />
         <Route path="/LoginForm" element={<LoginSignUp />} />
         <Route path="/SignupForm" element={<LoginSignUp />} />
         <Route path="/JobDetail" element={<JobDetail />} />
+        <Route path="/company/Setting" element={<TodosSettingsUI />} />
+        <Route path="/company/Profile" element={<CompanyProfile />} />
+        <Route path="/user/Profile" element={<SeekerProfile />} />
+        <Route path="/UserDashboard" element={<UserDashboard />} />
+        <Route path="/JobTurnityClone" element={<JobTurnityClone />} />
       </Routes>
     </Router>
   );

@@ -1,129 +1,23 @@
-import {
-  Bell,
-  ChevronRight,
-  LayoutDashboard,
-  MessageSquare,
-  Building2,
-  Users,
-  Briefcase,
-  CalendarDays,
-  Settings,
-  HelpCircle,
-  User,
-  LogOut,
-  Menu,
-  X,
-} from "lucide-react";
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { Bell, ChevronRight } from "lucide-react";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../../components/SideBar"; // Import the new Sidebar component
 
 const JobDashboard = () => {
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     if (!user) {
-      navigate("/LoginForm");
+      navigate("/");
     }
   }, [user, navigate]);
-  const handleLogout = () => {
-    logout();
-  };
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gray-50">
-      {/* Mobile Header */}
-      <div className="md:hidden bg-white p-4 flex justify-between items-center border-b">
-        <h1 className="font-bold">Job Dashboard</h1>
-        <button onClick={toggleSidebar} className="text-gray-600">
-          {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Sidebar - responsive */}
-      <div
-        className={`${
-          sidebarOpen ? "fixed inset-0 z-50 bg-white" : "hidden"
-        } md:block md:relative md:w-64 bg-white border-r`}
-      >
-        <div className="p-4">
-          <div className="space-y-2">
-            <div className="flex items-center p-2 bg-blue-50 text-blue-600 rounded cursor-pointer">
-              <LayoutDashboard size={20} />
-              <span className="ml-3">Dashboard</span>
-            </div>
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-              <MessageSquare size={20} />
-              <span className="ml-3">Messages</span>
-              <span className="ml-auto bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-                1
-              </span>
-            </div>
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-              <Building2 size={20} />
-              <span className="ml-3">Company Profile</span>
-            </div>
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-              <Users size={20} />
-              <span className="ml-3">All Applicants</span>
-            </div>
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-              <Briefcase size={20} />
-              <span className="ml-3">Job Listing</span>
-            </div>
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-              <CalendarDays size={20} />
-              <span className="ml-3">My Schedule</span>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <div className="text-xs font-semibold text-gray-400 mb-4 ">
-              SETTINGS
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-                <Settings size={20} />
-                <span className="ml-3">Settings</span>
-              </div>
-              <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-                <HelpCircle size={20} />
-                <span className="ml-3">Help Center</span>
-              </div>
-            </div>
-          </div>
-          <div className="mt-8">
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-              <User size={20} />
-              <span className="ml-3">
-                {user ? user.fullName : "please login"}
-              </span>
-            </div>
-            <div
-              className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer"
-              onClick={handleLogout}
-            >
-              <LogOut size={20} />
-              <span className="ml-3">logout</span>
-            </div>
-          </div>
-          {/* Close button only for mobile */}
-          <div className="mt-8 md:hidden">
-            <button
-              onClick={toggleSidebar}
-              className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer w-full"
-            >
-              <X size={20} />
-              <span className="ml-3">Close Menu</span>
-            </button>
-          </div>
-        </div>
-      </div>
+      {/* Import Sidebar */}
+      <Sidebar />
 
       {/* Main Content */}
       <div className="flex-1 overflow-auto">

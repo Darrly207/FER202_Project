@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import img1 from "../assets/wh1.jpg";
 import { Card } from "@/components/ui/card";
 import img from "../assets/img.png";
@@ -45,8 +44,8 @@ function LoginSignUp() {
             </div>
           </div>
           <p className="text-gray-800 italic">
-            "Great platform for the job seeker that searching for new career
-            heights."
+            &quot;Great platform for the job seeker that searching for new
+            career heights.&quot;
           </p>
         </Card>
       </div>

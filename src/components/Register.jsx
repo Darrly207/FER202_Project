@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Swal from "sweetalert2";
+import { AuthContext } from "@/context/AuthContext";
 
 const JobFinderRegister = () => {
-  const [active, setActive] = useState("job seeker");
+  const { register } = useContext(AuthContext);
+  const [active, setActive] = useState("job seeker"); // Lưu trạng thái vai trò
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +22,7 @@ const JobFinderRegister = () => {
       : "px-4 py-2 bg-gray-200 rounded-md border-2 border-gray-500 w-full hover:bg-gray-500";
   };
 
-  const register = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (!fullName || !username || !password) {
       Swal.fire({
@@ -44,44 +46,21 @@ const JobFinderRegister = () => {
       return;
     }
 
-    try {
-      const response = await fetch(
-        "https://user-auth-api-nestjs.onrender.com/auth/register",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            fullName,
-            username,
-            password,
-          }),
-        }
-      );
-      const data = await response.json();
-
-      Swal.fire({
-        icon: response.ok ? "success" : "error",
-        text: response.ok
-          ? `Register Successfully, ${data.message}`
-          : `Register failed, ${data.message}`,
-        timer: 3000,
-        timerProgressBar: true,
-        showConfirmButton: true,
-      });
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        text: `${error} Please try again later.`,
-        timer: 3000,
-        timerProgressBar: true,
-        showConfirmButton: true,
-      });
-    }
+    // Sử dụng `active` làm role
+    const result = await register(fullName, username, password, active);
+    Swal.fire({
+      icon: result.success ? "success" : "error",
+      text: result.message,
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: true,
+    });
   };
 
   return (
     <div className="flex flex-col mx-auto justify-center flex-1 sm:w-full">
       <div className="max-w-md mx-auto w-full">
+        {/* Toggle buttons */}
         <div className="flex space-x-4 mb-8 w-full mx-auto">
           <Button className={activeColor("job seeker")} onClick={changeActive}>
             Job Seeker
@@ -91,20 +70,24 @@ const JobFinderRegister = () => {
           </Button>
         </div>
 
+        {/* Header */}
         <h1 className="text-4xl font-semibold text-gray-700 mb-8">
           Get more opportunities
         </h1>
 
+        {/* Google Sign Up */}
         <Button className="w-full py-3 px-4 border rounded-lg mb-8 flex items-center justify-center space-x-2 bg-slate-200 border-gray-400 hover:bg-gray-100">
           <FaGoogle size={24} color="red" />
           <span>Sign Up with Google</span>
         </Button>
 
+        {/* Email Sign Up */}
         <div className="text-center text-gray-500 mb-4">
           Or sign up with email
         </div>
 
-        <form className="space-y-2" onSubmit={register}>
+        {/* Form */}
+        <form className="space-y-2" onSubmit={handleRegister}>
           <div>
             <label className="block text-gray-700 mb-2">Full Name</label>
             <Input
@@ -138,11 +121,13 @@ const JobFinderRegister = () => {
             />
           </div>
 
+          {/* Checkbox */}
           <div className="flex items-center">
             <input type="checkbox" id="remember" className="mr-2" />
             <label htmlFor="remember">Remember me</label>
           </div>
 
+          {/* Submit Button */}
           <Button
             type="submit"
             className="w-full py-3 bg-green-500 text-white rounded-lg hover:bg-green-600"
@@ -150,6 +135,7 @@ const JobFinderRegister = () => {
             Register
           </Button>
 
+          {/* Terms and Conditions */}
           <p className="text-sm text-gray-500">
             By clicking &apos;Continue&apos;, you acknowledge that you have read
             and accept the{" "}

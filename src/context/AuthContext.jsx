@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -8,10 +7,27 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Danh sách người dùng giả lập
+  const [mockUsers, setMockUsers] = useState([
+    {
+      id: 1,
+      username: "seeker123",
+      password: "123456",
+      role: "seeker",
+      fullName: "Darrly Ng",
+    },
+    {
+      id: 2,
+      username: "companyAccount1",
+      password: "123456",
+      role: "company",
+      fullName: "Darrly Com",
+    },
+  ]);
+
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem("user");
-      console.log("storedUser", storedUser);
       if (storedUser && storedUser !== "undefined") {
         setUser(JSON.parse(storedUser));
       }
@@ -24,67 +40,63 @@ const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await fetch(
-        "https://user-auth-api-nestjs.onrender.com/auth/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
-        }
+      const foundUser = mockUsers.find(
+        (user) => user.username === username && user.password === password
       );
 
-      const data = await response.json();
-      console.log("Login response:", data); // Log để kiểm tra dữ liệu trả về từ API đăng nhập
-
-      if (response.ok && data.token) {
-        // Đảm bảo token tồn tại
-        try {
-          const response2 = await fetch(
-            "https://user-auth-api-nestjs.onrender.com/users/me",
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${data.token}`,
-              },
-            }
-          );
-
-          const data2 = await response2.json();
-          console.log("User details response:", data2.data);
-
-          if (response2.ok) {
-            setUser(data2.data);
-            localStorage.setItem("user", JSON.stringify(data2.data));
-            return true;
-          } else {
-            console.error("Failed to fetch user details:", data2);
-            return false;
-          }
-        } catch (error) {
-          console.error("Error fetching user details:", error);
-          return false;
-        }
+      if (foundUser) {
+        setUser(foundUser);
+        localStorage.setItem("user", JSON.stringify(foundUser));
+        return true;
       } else {
-        console.error(
-          "Login failed: Invalid credentials or no token received."
-        );
+        console.error("Invalid credentials");
         return false;
       }
     } catch (error) {
-      console.error("Login request failed:", error);
+      console.error("Login failed:", error);
       return false;
+    }
+  };
+
+  const register = async (fullName, username, password, role) => {
+    try {
+      // Kiểm tra xem tên người dùng đã tồn tại chưa
+      const userExists = mockUsers.some((user) => user.username === username);
+      if (userExists) {
+        console.error("Username already exists");
+        return { success: false, message: "Username already exists" };
+      }
+
+      // Tạo người dùng mới
+      const newUser = {
+        id: mockUsers.length + 1,
+        fullName,
+        username,
+        password,
+        role,
+      };
+
+      // Cập nhật danh sách người dùng
+      setMockUsers((prevUsers) => [...prevUsers, newUser]);
+
+      // Lưu thông tin người dùng vào localStorage
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+
+      return { success: true, message: "Registration successful" };
+    } catch (error) {
+      console.error("Registration failed:", error);
+      return { success: false, message: "Registration failed" };
     }
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
-    Navigate("/LoginForm");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
