@@ -1,13 +1,14 @@
 import React from "react";
-import Sidebar from "../../components/SideBar";
+import Sidebar from "../../components/SideBarCompany";
 import { Avatar } from "../../components/ui/avatar";
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
+import Footer from "../../components/Footer";
 
 const SeekerProfile = () => {
   return (
-    <div className="flex px-5">
+    <div className="flex p-5 w-full">
       {/* Sidebar */}
       <Sidebar />
 
@@ -175,6 +176,7 @@ const SeekerProfile = () => {
           </Card>
         </div>
       </div>
+      <div className="p-10"></div>
     </div>
   );
 };

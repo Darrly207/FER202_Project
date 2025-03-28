@@ -2,15 +2,14 @@ import { Bell, ChevronRight } from "lucide-react";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../../components/SideBar"; // Import the new Sidebar component
-
+import Sidebar from "../../components/SideBarCompany"; // Import the new Sidebar component
 const JobDashboard = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
     if (!user) {
-      navigate("/");
+      navigate("/LoginForm");
     }
   }, [user, navigate]);
 
@@ -25,7 +24,7 @@ const JobDashboard = () => {
           <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
             <div>
               <h1 className="text-xl md:text-2xl font-bold mb-2">
-                Good morning, Maria
+                Good morning, {user?.fullName || "Darrly"}!
               </h1>
               <p className="text-sm md:text-base text-gray-500">
                 Here is your job listings statistic report from July 19 - July

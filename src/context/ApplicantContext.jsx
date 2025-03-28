@@ -9,8 +9,8 @@ const ApplicantProvider = ({ children }) => {
     {
       id: 1,
       jobID: 1,
-      userID: "user1",
-      companyID: "company1",
+      userID: 1,
+      companyID: 1,
       fullName: "John Doe",
       email: "john.doe@example.com",
       phoneNumber: "1234567890",
@@ -24,7 +24,7 @@ const ApplicantProvider = ({ children }) => {
     {
       id: 2,
       jobID: 2,
-      userID: "user2",
+      userID: 1,
       companyID: "company2",
       fullName: "Jane Smith",
       email: "jane.smith@example.com",

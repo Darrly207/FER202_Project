@@ -30,14 +30,10 @@ const Sidebar = () => {
     }
   }, [user, navigate]);
 
-  if (!user) {
-    return <div>Redirecting...</div>; // If user doesn't exist after loading, will redirect
-  }
-
   const handleLogout = () => {
     if (logout) {
       logout();
-      Router.push("/");
+      Router("/");
     }
   };
 
@@ -57,7 +53,7 @@ const Sidebar = () => {
           sidebarOpen ? "fixed inset-0 z-50 bg-white" : "hidden"
         } md:block md:relative md:w-64 bg-white border-r`}
       >
-        <div className="p-4">
+        <div className="p-4 h-full flex flex-col justify-between">
           <div className="space-y-2">
             <Link
               to={"/UserDashboard"}
@@ -77,11 +73,11 @@ const Sidebar = () => {
               </span>
             </Link>
             <Link
-              to={"/company/Profile"}
+              to={"/user/Profile"}
               className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer"
             >
               <Building2 size={20} />
-              <span className="ml-3">Company Profile</span>
+              <span className="ml-3">My Public Profile</span>
             </Link>
             <Link
               to={"/FindCompaniesPage"}
@@ -91,33 +87,28 @@ const Sidebar = () => {
               <span className="ml-3">Browse Companies</span>
             </Link>
             <Link
-              to={"/UserMyApplication"}
+              to={"/UserAppliancesPage"}
               className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer"
             >
               <Briefcase size={20} />
               <span className="ml-3">My Applications</span>
             </Link>
-            <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-              <CalendarDays size={20} />
-              <span className="ml-3">My Schedule</span>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <div className="text-xs font-semibold text-gray-400 mb-4 ">
-              SETTINGS
-            </div>
-            <div className="space-y-2">
-              <Link
-                to={"/settings/Profile"}
-                className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer"
-              >
-                <Settings size={20} />
-                <span className="ml-3">Settings</span>
-              </Link>
-              <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-                <HelpCircle size={20} />
-                <span className="ml-3">Help Center</span>
+            <div className="mt-8">
+              <div className="text-xs font-semibold text-gray-400 mb-4 ">
+                SETTINGS
+              </div>
+              <div className="space-y-2">
+                <Link
+                  to={"/company/Setting"}
+                  className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <Settings size={20} />
+                  <span className="ml-3">Settings</span>
+                </Link>
+                <div className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
+                  <HelpCircle size={20} />
+                  <span className="ml-3">Help Center</span>
+                </div>
               </div>
             </div>
           </div>

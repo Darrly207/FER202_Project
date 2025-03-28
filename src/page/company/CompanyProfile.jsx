@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import Siderbar from "../../components/SideBar";
+import Siderbar from "../../components/SideBarCompany";
 import { Avatar } from "../../components/ui/avatar";
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
@@ -10,15 +10,15 @@ import { useNavigate } from "react-router-dom";
 const CompanyProfile = () => {
   const { companies, getCompanyById } = useContext(CompanyContext);
   const { user } = useContext(AuthContext);
-  const router = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     if (user.role !== "company") {
-      router("/user/DashBoard");
+      navigate("/user/DashBoard");
     }
     if (!user) {
-      router("/");
+      navigate("/");
     }
-  }, [user, router]);
+  }, [user, navigate]);
 
   const company = getCompanyById(user.id);
 
@@ -27,12 +27,15 @@ const CompanyProfile = () => {
   }
 
   return (
-    <div className="flex">
+    <div
+      className="flex justify-center overflow-hidden"
+      style={{ height: "80vh" }}
+    >
       {/* Sidebar */}
       <Siderbar />
 
       {/* Main Content */}
-      <div className="ml-64 flex-1 max-w-4xl mx-auto p-6">
+      <div className="flex-1 mx-auto p-6 overflow-y-auto">
         {/* Header */}
         <Card className="relative p-6 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg">
           <div className="flex items-center">

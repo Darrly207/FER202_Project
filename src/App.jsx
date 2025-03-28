@@ -1,22 +1,23 @@
+import { GoogleAuthProvider } from "firebase/auth";
 import Navbar from "./components/Navbar";
 import ApplicantProvider from "./context/ApplicantContext";
 import AuthProvider from "./context/AuthContext";
 import CompanyProvider from "./context/CompanyContext";
 import JobProvider from "./context/JobContext";
-
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
-    <AuthProvider>
-      <CompanyProvider>
+    <CompanyProvider>
+      <AuthProvider>
         <JobProvider>
           <ApplicantProvider>
-            <div className="p-6 overflow-x-hidden">
+            <div className="p-6 bg-gray-100 overflow-hidden h-full">
               <Navbar />
             </div>
           </ApplicantProvider>
         </JobProvider>
-      </CompanyProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </CompanyProvider>
   );
 }
 

@@ -1,171 +1,194 @@
-// import Navbar from "./components/Navbar";
+import React, { useContext, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { JobContext } from "../context/JobContext";
+import { ApplicantContext } from "../context/ApplicantContext";
+import { AuthContext } from "../context/AuthContext";
+import CreateApplicationDialog from "../components/CreateApplicationDialog";
 
 const JobDetail = () => {
-  return (
-    <div className="flex min-h-screen bg-gray-100 font-sans">
-      {/* Sidebar */}
+  const { jobs } = useContext(JobContext);
+  const { addApplicant } = useContext(ApplicantContext); // Use ApplicantContext
+  const { user } = useContext(AuthContext); // Use AuthContext
+  const { jobId } = useParams();
+  const navigate = useNavigate();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
 
-      {/* Main Content */}
-      <div className="flex w-full p-8">
-        <div className="flex-7">
+  // Find the specific job based on the ID from the URL
+  const job = jobs.find((j) => j.id === parseInt(jobId));
+
+  // If no job is found, show an error message
+  if (!job) {
+    return (
+      <div className="flex min-h-screen bg-gray-100 font-sans justify-center items-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Job Not Found</h1>
+          <Link to="/" className="text-blue-500 underline">
+            Back to Job Finder
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Handle Apply button click
+  const handleApply = () => {
+    if (!user) {
+      // If user is not logged in, navigate to login page
+      navigate("/LoginForm");
+    } else {
+      setSelectedJob(job);
+      setIsDialogOpen(true);
+    }
+  };
+
+  // Handle application submission
+  const handleApplicationSubmit = (applicationData) => {
+    console.log("Application Data:", applicationData); // Log the application data
+    addApplicant(applicationData); // Save application to ApplicantContext
+    setIsDialogOpen(false); // Close the dialog
+  };
+
+  return (
+    <div className="flex min-h-screen bg-gray-50 font-sans">
+      <div className="flex w-full p-8 gap-8">
+        {/* Left Column */}
+        <div className="flex-7 w-2/3">
           <div className="flex flex-col mb-6">
             <div className="flex justify-between items-center mb-8">
-              <h1 className="text-2xl font-bold">Job Description</h1>
-              <a className="text-blue-500" href="#">
+              <h1 className="text-3xl font-bold text-gray-800">
+                Job Description
+              </h1>
+              <Link to="/" className="text-blue-500 underline">
                 Back to homepage
-              </a>
+              </Link>
             </div>
 
-            <div className="flex items-center mb-2 justify-between w-4/5 ">
+            <div className="flex items-center mb-6">
               <img
                 src="https://placehold.co/60x60"
                 alt="Company logo"
-                className="w-16 h-16 rounded-full mr-4"
+                className="w-16 h-16 rounded-full mr-4 shadow-md"
               />
               <div>
-                <h2 className="text-xl font-bold">Social Media Assistant</h2>
+                <h2 className="text-2xl font-semibold text-gray-800">
+                  {job.title}
+                </h2>
                 <p className="text-gray-500">
-                  Stripe • Paris, France • Full-Time
+                  {job.companyId} • {job.jobType}
                 </p>
               </div>
-              <button className="ml-auto bg-green-500 text-white px-8 py-2 rounded-lg">
+              <button
+                onClick={handleApply}
+                disabled={user?.role === "company"} // Disable if the user role is "company"
+                className={`ml-auto px-6 py-2 rounded-lg shadow-md ${
+                  user?.role === "company"
+                    ? "bg-gray-400 text-gray-700 cursor-not-allowed" // Disabled style
+                    : "bg-green-600 hover:bg-green-700 text-white" // Enabled style
+                }`}
+              >
                 Apply
               </button>
             </div>
           </div>
-          <div className="flex">
-            <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-              <div className="mb-10">
-                <h3 className="text-lg font-semibold mb-2">Description</h3>
-                <p className="text-gray-700">
-                  Stripe is looking for Social Media Marketing expert to help
-                  manage our online networks. You will be responsible for
-                  monitoring our social media channels, creating content,
-                  finding effective ways to engage the community and incentivize
-                  others to engage on our channels.
-                </p>
-              </div>
-              <div className="mb-7">
-                <h3 className="text-lg font-semibold mb-2">Responsibilities</h3>
-                <ul className="list-disc list-inside text-gray-700">
-                  <li>
-                    Community engagement to ensure that is supported and
-                    actively represented online
-                  </li>
-                  <li>
-                    Focus on social media content development and publication
-                  </li>
-                  <li>Marketing and strategy support</li>
-                  <li>
-                    Stay on top of trends on social media platforms, and suggest
-                    content ideas to the team
-                  </li>
-                  <li>Engage with online communities</li>
-                </ul>
-              </div>
-              <div className="mb-7">
-                <h3 className="text-lg font-semibold mb-2">Who You Are</h3>
-                <ul className="list-disc list-inside text-gray-700">
-                  <li>
-                    You get energy from people and building the ideal work
-                    environment
-                  </li>
-                  <li>
-                    You have a sense for beautiful spaces and office experiences
-                  </li>
-                  <li>
-                    You are a confident office manager, ready for added
-                    responsibilities
-                  </li>
-                  <li>You&apos;re detail-oriented and creative</li>
-                  <li>
-                    You&apos;re a growth marketer and know how to run campaigns
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Nice-To-Haves</h3>
-                <ul className="list-disc list-inside text-gray-700">
-                  <li>Fluent in English</li>
-                  <li>Project management skills</li>
-                  <li>Copy editing skills</li>
-                </ul>
+
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <div className="mb-10">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                Description
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                {job.jobDescription}
+              </p>
+            </div>
+            <div className="mb-7">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                Responsibilities
+              </h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-2">
+                {job.responsibilities.split(". ").map((resp, index) => (
+                  <li key={index}>{resp}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="mb-7">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                Who You Are
+              </h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-2">
+                {job.whoYouAre.split(". ").map((who, index) => (
+                  <li key={index}>{who}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                Nice-To-Haves
+              </h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-2">
+                {job.niceToHaves.split(", ").map((nice, index) => (
+                  <li key={index}>{nice}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column */}
+        <div className="flex flex-col w-1/3 space-y-8">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              About this role
+            </h3>
+            <div className="mb-4">
+              <p className="text-gray-700">
+                <span className="font-semibold">{job.applicants} applied</span>{" "}
+                of {job.needs} capacity
+              </p>
+              <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+                <div
+                  className="bg-blue-500 h-2.5 rounded-full"
+                  style={{
+                    width: `calc(${job.applicants} / ${job.needs} * 100%)`,
+                  }}
+                ></div>
               </div>
             </div>
-
-            <div className="flex flex-col space-x-8">
-              <div className="bg-white py-6 rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold mb-4">About this role</h3>
-                <div className="mb-4">
-                  <p className="text-gray-700">
-                    <span className="font-semibold">5 applied</span> of 10
-                    capacity
-                  </p>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
-                    <div
-                      className="bg-blue-500 h-2.5 rounded-full"
-                      style={{ width: "50%" }}
-                    ></div>
-                  </div>
-                </div>
-                <div className="mb-4">
-                  <p className="text-gray-700">
-                    <span className="font-semibold">Apply Before:</span> July
-                    31, 2021
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <p className="text-gray-700">
-                    <span className="font-semibold">Job Posted On:</span> July
-                    1, 2021
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <p className="text-gray-700">
-                    <span className="font-semibold">Job Type:</span> Full-Time
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-700">
-                    <span className="font-semibold">Salary:</span> $75k-$85k USD
-                  </p>
-                </div>
-              </div>
-              <div className="bg-white py-6 rounded-lg shadow-md mt-8 w-3/4">
-                <h3 className="text-lg font-semibold mb-4">Categories</h3>
-                <div className="flex space-x-2">
-                  <span className="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-sm">
-                    Marketing
-                  </span>
-                  <span className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
-                    Design
-                  </span>
-                </div>
-              </div>
-              <div className="bg-white py-6 rounded-lg shadow-md mt-8 w-3/4">
-                <h3 className="text-lg font-semibold mb-4">Required Skills</h3>
-                <div className="flex flex-wrap space-x-2">
-                  <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">
-                    Project Management
-                  </span>
-                  <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm">
-                    Copywriting
-                  </span>
-                  <span className="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">
-                    English
-                  </span>
-                  <span className="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">
-                    Social Media Marketing
-                  </span>
-                  <span className="bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full text-sm">
-                    Copy Editing
-                  </span>
-                </div>
-              </div>
+            <div className="mb-4">
+              <p className="text-gray-700">
+                <span className="font-semibold">Apply Before:</span>{" "}
+                {job.dueDate.toLocaleDateString()}
+              </p>
+            </div>
+            <div className="mb-4">
+              <p className="text-gray-700">
+                <span className="font-semibold">Job Posted On:</span>{" "}
+                {job.datePosted.toLocaleDateString()}
+              </p>
+            </div>
+            <div className="mb-4">
+              <p className="text-gray-700">
+                <span className="font-semibold">Job Type:</span> {job.jobType}
+              </p>
+            </div>
+            <div>
+              <p className="text-gray-700">
+                <span className="font-semibold">Salary:</span> ${job.salaryMin}
+                k-${job.salaryMax}k USD
+              </p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Dialog for creating an application */}
+      {isDialogOpen && (
+        <CreateApplicationDialog
+          job={selectedJob}
+          onClose={() => setIsDialogOpen(false)}
+          onSubmit={handleApplicationSubmit} // Pass the handler
+        />
+      )}
     </div>
   );
 };

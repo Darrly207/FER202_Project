@@ -1,14 +1,18 @@
-import { createContext, useState, useEffect } from "react";
-
+import { createContext, useState, useEffect, useContext } from "react";
+import { auth, googleProvider } from "../lib/firebaseConfig";
+import { signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore"; // Import Firestore methods
+import { db } from "../lib/firebaseConfig"; // Import Firestore instance
+import { CompanyContext } from "./CompanyContext"; // Import addCompany function
+import { Navigate } from "react-router-dom";
 export const AuthContext = createContext();
 
-// eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const { addCompany } = useContext(CompanyContext);
   // Danh sách người dùng giả lập
-  const [mockUsers, setMockUsers] = useState([
+  const mockUsers = [
     {
       id: 1,
       username: "seeker123",
@@ -22,22 +26,33 @@ const AuthProvider = ({ children }) => {
       password: "123456",
       role: "company",
       fullName: "Darrly Com",
+      companyID: "1",
     },
-  ]);
+  ];
 
   useEffect(() => {
-    try {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser && storedUser !== "undefined") {
-        setUser(JSON.parse(storedUser));
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        const userData = {
+          id: currentUser.uid,
+          email: currentUser.email || "unknown@example.com",
+          fullName: currentUser.displayName || "Unknown User",
+          role: "seeker", // Mặc định là 'seeker'
+          img: currentUser.photoURL || "https://via.placeholder.com/150",
+        };
+        setUser(userData);
+        localStorage.setItem("user", JSON.stringify(userData));
+      } else {
+        setUser(null);
+        localStorage.removeItem("user");
       }
-    } catch (error) {
-      console.error("Error parsing user from localStorage:", error);
-    } finally {
       setLoading(false);
-    }
+    });
+
+    return () => unsubscribe();
   }, []);
 
+  // Đăng nhập bằng tài khoản giả lập
   const login = async (username, password) => {
     try {
       const foundUser = mockUsers.find(
@@ -47,27 +62,24 @@ const AuthProvider = ({ children }) => {
       if (foundUser) {
         setUser(foundUser);
         localStorage.setItem("user", JSON.stringify(foundUser));
-        return true;
+        return { success: true, message: "Login successful" };
       } else {
-        console.error("Invalid credentials");
-        return false;
+        return { success: false, message: "Invalid credentials" };
       }
     } catch (error) {
       console.error("Login failed:", error);
-      return false;
+      return { success: false, message: "An unexpected error occurred" };
     }
   };
 
+  // Đăng ký tài khoản giả lập
   const register = async (fullName, username, password, role) => {
     try {
-      // Kiểm tra xem tên người dùng đã tồn tại chưa
       const userExists = mockUsers.some((user) => user.username === username);
       if (userExists) {
-        console.error("Username already exists");
         return { success: false, message: "Username already exists" };
       }
 
-      // Tạo người dùng mới
       const newUser = {
         id: mockUsers.length + 1,
         fullName,
@@ -77,26 +89,100 @@ const AuthProvider = ({ children }) => {
       };
 
       // Cập nhật danh sách người dùng
-      setMockUsers((prevUsers) => [...prevUsers, newUser]);
+      mockUsers.push(newUser);
 
-      // Lưu thông tin người dùng vào localStorage
       setUser(newUser);
       localStorage.setItem("user", JSON.stringify(newUser));
+      if (role === "company") {
+        const defaultCompany = {
+          userID: newUser.id,
+          name: "New Company",
+          logoSrc: "https://via.placeholder.com/150?text=Company+Logo",
+          description: "No description available",
+          location: "Unknown location",
+          contactInfo: {
+            address: "Not provided",
+            phone: "Not provided",
+            email: "Not provided",
+            website: "#",
+          },
+          aboutUs: "About information not available.",
+          visionMission: "Vision & mission not available.",
+          services: ["Service information not available."],
+          teamMembers: [],
+          achievements: ["No achievements listed."],
+          benefits: ["No benefits listed."],
+          partnerships: [],
+          testimonials: [],
+        };
+
+        addCompany(defaultCompany); // Gọi addCompany từ CompanyContext
+      }
 
       return { success: true, message: "Registration successful" };
     } catch (error) {
       console.error("Registration failed:", error);
-      return { success: false, message: "Registration failed" };
+      return { success: false, message: "An unexpected error occurred" };
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+  // Đăng xuất
+  const logout = async () => {
+    try {
+      // Đăng xuất khỏi Firebase Authentication
+      await signOut(auth);
+
+      // Reset trạng thái user và xóa dữ liệu từ localStorage
+      setUser(null);
+      localStorage.removeItem("user");
+      localStorage.removeItem("users");
+
+      console.log("User logged out successfully");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  // Đăng nhập bằng Google
+  const loginWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const googleUser = result.user;
+
+      console.log("Google User:", googleUser); // Debug giá trị của googleUser
+
+      if (!googleUser || !googleUser.uid) {
+        console.error("Google user or UID is missing:", googleUser);
+        return { success: false, message: "Failed to retrieve user data" };
+      }
+
+      const userData = {
+        id: googleUser.uid,
+        email: googleUser.email || "unknown@example.com",
+        fullName: googleUser.displayName || "Google User",
+        role: "seeker", // Mặc định là 'seeker'
+        img: googleUser.photoURL || "https://via.placeholder.com/150",
+      };
+
+      // Lưu thông tin người dùng vào Firestore
+      const userRef = doc(db, "users", googleUser.uid);
+      await setDoc(userRef, userData, { merge: true });
+
+      // Cập nhật trạng thái người dùng
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      return { success: true, message: "Logged in with Google successfully" };
+    } catch (error) {
+      console.error("Google login failed:", error);
+      return { success: false, message: "Google login failed" };
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider
+      value={{ user, login, register, logout, loginWithGoogle, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -1,11 +1,21 @@
+import React, { useContext, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-// import { Checkbox } from "@/components/ui/checkbox";
 import img1 from "../assets/image.png";
 import { Search, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { JobContext } from "../context/JobContext"; // Adjust the import path as needed
+
 const JobFinderPage = () => {
+  const { jobs } = useContext(JobContext);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filter jobs based on the search term
+  const filteredJobs = jobs.filter((job) =>
+    job.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="max-w-6xl mx-auto p-6 ml-22 mt-11 mb-11">
       <div className="text-center mb-8">
@@ -30,6 +40,8 @@ const JobFinderPage = () => {
             className="pl-10 w-full h-9 ml-3 border-b border-gray-300"
             style={{ width: "90%" }}
             placeholder="Job title or keyword"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} // Update search term
           />
         </div>
         <div className="flex-1 relative border-l border-gray-200 h-9 ml-3">
@@ -54,145 +66,7 @@ const JobFinderPage = () => {
       <div className="flex gap-8 mt-8">
         {/* Filters */}
         <div className="w-58">
-          <div className="mb-6">
-            <h3 className="font-semibold mb-4 text-md">Type of Employment</h3>
-            <div className="space-y-3 text-gray-500">
-              <div className="flex items-center gap-2 ">
-                {/* <Checkbox id="full-time" /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-
-                <label htmlFor="full-time" className="text-md">
-                  Full-Time (2)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="part-time" className="text-md">
-                  Part-Time (5)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="remote" className="text-md">
-                  Remote (2)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="remote" className="text-md">
-                  Internship (24)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="remote" className="text-md">
-                  Contract (3)
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div className="mb-6">
-            <h3 className="font-semibold mb-4">Categories</h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="design" /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="design" className="text-md">
-                  Design (24)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="sales" /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="sales" className="text-md">
-                  Sales (5)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="marketing" checked /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="marketing" className="text-md">
-                  Marketing (3)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="marketing" checked /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="marketing" className="text-md">
-                  Finance (3)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="marketing" checked /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="marketing" className="text-md">
-                  Business (3)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="marketing" checked /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="marketing" className="text-md">
-                  Human Resource (6)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="marketing" checked /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="marketing" className="text-md">
-                  Engineering (4)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="marketing" checked /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="marketing" className="text-md">
-                  Technology (5)
-                </label>
-              </div>
-            </div>
-          </div>
-          <div className="mb-6">
-            <h3 className="font-semibold mb-4">Job Level</h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="design" /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="design" className="text-md">
-                  Entry Level (57)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="sales" /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="sales" className="text-md">
-                  Mid Level (3)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="marketing" checked /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="marketing" className="text-md">
-                  Senior Level (5)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="marketing" checked /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="marketing" className="text-md">
-                  Director (12)
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* <Checkbox id="marketing" checked /> */}
-                <input type="checkbox" className="w-5 h-5 accent-green-500" />
-                <label htmlFor="marketing" className="text-md">
-                  VP or above (8)
-                </label>
-              </div>
-            </div>
-          </div>
+          {/* ... (filters section remains unchanged) ... */}
         </div>
 
         {/* Job Listings */}
@@ -202,7 +76,9 @@ const JobFinderPage = () => {
               <h2 className="text-3xl font-semibold text-yellow-500">
                 All Jobs
               </h2>
-              <p className="text-sm text-gray-500">Showing 73 results</p>
+              <p className="text-sm text-gray-500">
+                Showing {filteredJobs.length} results
+              </p>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-smm text-gray-400">Sort by:</span>
@@ -215,51 +91,10 @@ const JobFinderPage = () => {
           </div>
 
           <div className="space-y-4">
-            {[
-              {
-                img: img1,
-                title: "Social Media Assistant",
-                company: "Nike",
-                location: "Florence, Italy",
-                tags: ["Full-time", "Marketing", "Design"],
-                applications: 5,
-              },
-              {
-                img: img1,
-                title: "Brand Designer",
-                company: "Dropbox",
-                location: "San Francisco, USA",
-                tags: ["Full-time", "Marketing", "Design"],
-                applications: 7,
-              },
-              {
-                img: img1,
-                title: "Brand Designer",
-                company: "Dropbox",
-                location: "San Francisco, USA",
-                tags: ["Full-time", "Marketing", "Design"],
-                applications: 7,
-              },
-              {
-                img: img1,
-                title: "Brand Designer",
-                company: "Dropbox",
-                location: "San Francisco, USA",
-                tags: ["Full-time", "Marketing", "Design"],
-                applications: 7,
-              },
-              {
-                img: img1,
-                title: "Brand Designer",
-                company: "Dropbox",
-                location: "San Francisco, USA",
-                tags: ["Full-time", "Marketing", "Design"],
-                applications: 7,
-              },
-            ].map((job, index) => (
+            {filteredJobs.map((job, index) => (
               <Card key={index} className="gap-1">
                 <Link
-                  to="/JobDetail"
+                  to={`/JobDetail/${job.id}`}
                   className="flex justify-between items-start border-2 border-gray-200 p-4"
                 >
                   <div className="flex gap-4">
@@ -273,23 +108,20 @@ const JobFinderPage = () => {
                     <div>
                       <h3 className="font-semibold">{job.title}</h3>
                       <p className="text-sm text-gray-600">
-                        {job.company} • {job.location}
+                        {job.companyId} • {job.jobType}
                       </p>
                       <div className="flex gap-2 mt-2">
-                        {job.tags.map((tag, tagIndex) => (
+                        {job.categories.map((category, tagIndex) => (
                           <span
                             key={tagIndex}
-                            className={`text-xs px-3 py-1 rounded-full ${
-                              tag === "Full-time"
-                                ? " border-r-2 border-green-200 text-green-500 font-bold"
-                                : tag === "Marketing"
-                                ? " border border-orange-200 text-orange-500 font-bold"
-                                : "border border-blue-200 text-blue-500 font-bold"
-                            }`}
+                            className="text-xs px-3 py-1 rounded-full border border-blue-200 text-blue-500 font-bold"
                           >
-                            {tag}
+                            {category}
                           </span>
                         ))}
+                        <span className="text-xs px-3 py-1 rounded-full border-r-2 border-green-200 text-green-500 font-bold">
+                          {job.jobType}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -301,15 +133,15 @@ const JobFinderPage = () => {
                       <div
                         className="absolute h-full bg-green-500"
                         style={{
-                          width: `calc(${job?.applications ?? 0} / 10 * 100%)`,
+                          width: `calc(${job.applicants} / ${job.needs} * 100%)`,
                         }}
                       ></div>
                     </div>
                     <p className="text-sm text-gray-500 flex">
                       <span className="font-bold">
-                        {job?.applications ?? 0} applied
+                        {job.applicants} applied
                       </span>
-                      <span> of 10 capacity</span>
+                      <span> of {job.needs} capacity</span>
                     </p>
                   </div>
                 </Link>

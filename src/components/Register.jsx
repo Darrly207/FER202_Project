@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Swal from "sweetalert2";
 import { AuthContext } from "@/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const JobFinderRegister = () => {
+  const navigate = useNavigate();
   const { register } = useContext(AuthContext);
   const [active, setActive] = useState("job seeker"); // Lưu trạng thái vai trò
   const [fullName, setFullName] = useState("");
@@ -54,9 +56,12 @@ const JobFinderRegister = () => {
       timer: 3000,
       timerProgressBar: true,
       showConfirmButton: true,
+    }).then(() => {
+      if (result.success) {
+        navigate("/"); //
+      }
     });
   };
-
   return (
     <div className="flex flex-col mx-auto justify-center flex-1 sm:w-full">
       <div className="max-w-md mx-auto w-full">

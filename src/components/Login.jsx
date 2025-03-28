@@ -8,9 +8,11 @@ import { AuthContext } from "../context/AuthContext";
 
 const JobFinderLogin = () => {
   const navigate = useNavigate();
+  const { loginWithGoogle } = useContext(AuthContext);
   const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [active, setActive] = useState("job seeker");
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -43,6 +45,16 @@ const JobFinderLogin = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    const response = await loginWithGoogle();
+    if (response.success) {
+      console.log("Google login successful:", response.message);
+      navigate("/");
+    } else {
+      console.error("Google login failed:", response.message);
+    }
+  };
+
   return (
     <div className="flex flex-col mx-auto justify-center flex-1 sm:w-full">
       <div className="max-w-md mx-auto w-full">
@@ -62,7 +74,11 @@ const JobFinderLogin = () => {
           Get more opportunities
         </h1>
 
-        <Button className="w-full py-3 border rounded-lg mb-8 flex items-center justify-center space-x-2 bg-slate-200 border-gray-400 hover:bg-gray-100">
+        {/* Nút đăng nhập bằng Google */}
+        <Button
+          className="w-full py-3 border rounded-lg mb-8 flex items-center justify-center space-x-2 bg-slate-200 border-gray-400 hover:bg-gray-100"
+          onClick={handleGoogleLogin}
+        >
           <FaGoogle size={24} color="red" />
           <span>Sign Up with Google</span>
         </Button>

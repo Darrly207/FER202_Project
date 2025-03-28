@@ -1,5 +1,5 @@
 import DashboardHeader from "../../components/DashboardHeader";
-import Sidebar from "../../components/SideBar";
+import Sidebar from "../../components/SidebarUser";
 import { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -47,9 +47,12 @@ export default function DashBoardUser() {
     },
   ];
   return (
-    <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen w-full overflow-hidden">
+    <div
+      className="flex flex-col md:flex-row bg-gray-100 w-full -z-10 h-full"
+      style={{ height: "84vh" }}
+    >
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-      <div className="w-full overflow-y-auto md:h-screen pb-10">
+      <div className="w-full md:h-screen pb-10 h-full  overflow-y-auto">
         <main className="flex-1">
           <div className="w-full mt-6 px-4 border-b-2 border-gray-200 mb-12">
             <DashboardHeader dashboardHeaderName={"Dashboard"} />

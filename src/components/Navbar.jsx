@@ -18,11 +18,14 @@ import SeekerProfile from "../page/user/SeekerProfile";
 import UserDashboard from "../page/user/DashBoardUser";
 import CompanyDashboard from "../page/company/Dashboard";
 import JobTurnityClone from "../page/BrowserCompany";
+import MessageCenter from "../page/MesageCenter";
+import MessageCenterCompany from "../page/MessageCenterCompany";
+import CompanyAppliancesPage from "../page/company/CompanyAppliancesPage";
+import UserAppliancesPage from "../page/user/UserAppliancesPage";
 function Navbar() {
   const authContext = useContext(AuthContext);
   const { user, logout } = authContext;
   const storedUser = JSON.parse(localStorage.getItem("user"));
-  console.log(storedUser);
   const [isOpen, setIsOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const handleLogout = () => {
@@ -199,12 +202,19 @@ function Navbar() {
         <Route path="/JobFind" element={<JobFinderPage />} />
         <Route path="/LoginForm" element={<LoginSignUp />} />
         <Route path="/SignupForm" element={<LoginSignUp />} />
-        <Route path="/JobDetail" element={<JobDetail />} />
+        <Route path="/JobDetail/:jobId" element={<JobDetail />} />
         <Route path="/company/Setting" element={<TodosSettingsUI />} />
         <Route path="/company/Profile" element={<CompanyProfile />} />
         <Route path="/user/Profile" element={<SeekerProfile />} />
         <Route path="/UserDashboard" element={<UserDashboard />} />
         <Route path="/JobTurnityClone" element={<JobTurnityClone />} />
+        <Route path="/Message" element={<MessageCenter />} />
+        <Route path="/MessageCompany" element={<MessageCenterCompany />} />
+        <Route
+          path="/CompanyAppliancesPage"
+          element={<CompanyAppliancesPage />}
+        />
+        <Route path="/UserAppliancesPage" element={<UserAppliancesPage />} />
       </Routes>
     </Router>
   );
