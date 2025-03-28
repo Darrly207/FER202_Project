@@ -99,7 +99,7 @@ const Sidebar = () => {
               </div>
               <div className="space-y-2">
                 <Link
-                  to={"/company/Setting"}
+                  to={"/user/Profile"}
                   className="flex items-center p-2 text-gray-600 hover:bg-gray-50 rounded cursor-pointer"
                 >
                   <Settings size={20} />
